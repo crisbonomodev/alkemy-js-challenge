@@ -6,7 +6,7 @@ app.use(express.json());
 
 //GET
 app.get('/user', UserController.getUser);
-app.get('/user/:email', UserController.getUser);
+app.get('/user/:username', UserController.getUser);
 //POST
 app.post('/user', UserController.createUser);
 //PUT

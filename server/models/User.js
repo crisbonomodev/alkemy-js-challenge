@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../db/db.js');
+const bcrypt = require('bcrypt');
 
 
 const User = db.define('User', {
@@ -21,7 +22,16 @@ const User = db.define('User', {
     allowNull: false
   }
 }, {
-  // Other model options go here
+  timestamps: false
 });
+
+User.encryptPassword = async function (password) {
+  const salt = await bcrypt.genSalt(10);
+  return await bcrypt.hash(password,salt);
+}
+
+User.comparePassword =  async function (password,receivedPassword) {
+  return await bcrypt.compare(password,receivedPassword);
+}
 
 module.exports = User;

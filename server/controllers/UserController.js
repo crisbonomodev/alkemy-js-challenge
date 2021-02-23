@@ -2,35 +2,27 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt'); 
 const _ = require('underscore');
 
+
 const createUser = async (req,res) => {
     try {
-        /*let body = req.body;
-        //Creamos nuestro usuario
-        let usuario = new Usuario({
-                nombre: body.nombre,
-                email: body.email,
-                password: await Usuario.encryptPassword(body.password)
-            });
-        
-        let userFound = await Usuario.find({email: body.email});
-        if(userFound.length>0){ //Si encuentra al usuario registrado
+        let {username,firstName,lastName,password} = req.body;
+
+        let userFound = await User.findOne({where: {username: `${username}`}});
+        if(userFound!== null){ //Si encuentra al usuario registrado
             res.status(400).json({
                 ok:false,
-                message: 'El email ya está registrado'
+                message: 'username already registered.'
             });
         }else{//Guardamos en la bd
-            if(body.role){
-                const foundRole = await Role.find({name: body.role});
-                usuario.role = foundRole.map(role =>role._id);
-            }else{        
-                const role = await Role.findOne({name: "user"});
-                usuario.role = [role._id];
-            }
-            const newUser = await usuario.save();
+            const newUser = await User.create({
+                username: username,
+                password: await User.encryptPassword(password),
+                firstName: firstName,
+                lastName: lastName
+            });
+            
             res.status(200).json(newUser);
         }
-
-        */
        res.status(200).json('createUser');
     } catch (error) {
         console.error(error);
@@ -39,17 +31,17 @@ const createUser = async (req,res) => {
 
 const getUser = async (req,res) => {
     try {
-        /*//parametros
-        let mail = req.params.email;
+        //parametros
+        let username = req.body.username;
+        console.log(username);
         let userFound;
         //Usamos el modelo para buscar, el string esta seteado para devolver solo nombre y email
-        if(mail){
-            userFound = await Usuario.find({email: mail},'nombre email');
+        if(username){
+            userFound = await User.findOne({where: {username: `${username}`}});
         }else{
-            userFound = await Usuario.find({},'nombre email');
+            userFound = {};
         }
-        res.status(200).json(userFound); */
-        res.status(200).json('getUser');
+        res.status(200).json(userFound); 
     } catch (error) {
         console.log(error);
     }
