@@ -1,10 +1,9 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const db = require('../db/db.js');
 const bcrypt = require('bcrypt');
 
 
 const User = db.define('User', {
-  // Model attributes are defined here
   username: {
     type: DataTypes.STRING,
     allowNull: false

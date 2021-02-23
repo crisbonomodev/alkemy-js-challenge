@@ -1,21 +1,7 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const db = require('../db/db.js');
 
-
 const Transaction = db.define('Transaction', {
-  // Model attributes are defined here
-  concept: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  amount: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  date: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
   type: {
     type: DataTypes.STRING,
     allowNull: false
@@ -23,9 +9,29 @@ const Transaction = db.define('Transaction', {
   category: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  concept: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  amount: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false
+  },
+  updatedAt: {
+    type: DataTypes.DATE,
+    allowNull: false
   }
 }, {
-  // Other model options go here
+  timestamps: false,
 });
 
 module.exports = Transaction;

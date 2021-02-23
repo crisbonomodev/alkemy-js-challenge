@@ -1,8 +1,7 @@
 const User = require('../models/User');
-const bcrypt = require('bcrypt'); 
-const _ = require('underscore');
 
-
+//Metodo de creacion de usuarios, valida que el username no exista, en ese caso retorna error.
+//Caso contrario, graba el usuario en bd.
 const createUser = async (req,res) => {
     try {
         let {username,firstName,lastName,password} = req.body;
@@ -20,15 +19,17 @@ const createUser = async (req,res) => {
                 firstName: firstName,
                 lastName: lastName
             });
-            
+
             res.status(200).json(newUser);
         }
        res.status(200).json('createUser');
     } catch (error) {
-        console.error(error);
+        res.status(400).json({ok: false,
+        error: error.message});
     }
 }
 
+//Metodo para buscar usuarios, recibe por parametro el username.
 const getUser = async (req,res) => {
     try {
         //parametros

@@ -1,8 +1,7 @@
 require('./config/config');
 
 const express = require('express')
-const app = express()
-const bodyParser = require('body-parser');
+const app = express();
 
 const db = require('./db/db');
 
@@ -12,8 +11,8 @@ db.authenticate()
   console.log(err)
 })
 
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 //GET
 app.get('/', function (req, res) {
   res.json('Balance Homepage');
