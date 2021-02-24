@@ -1,10 +1,6 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 
-const signUp = async (req,res) => {
-    res.json('sign Up');
-}
-
 const signIn = async (req,res) => {
     let body = req.body;
     let email = req.body.email.toLowerCase();
@@ -28,9 +24,7 @@ const signIn = async (req,res) => {
         });
     }
 
-//generamos el token
         let token = jwt.sign({user: userFound},process.env.SEED,{expiresIn: process.env.CADUCIDAD_TOKEN});
-        console.log(token);
         res.json({ //Login exitoso
             ok: true,
             user: userFound,
@@ -39,6 +33,5 @@ const signIn = async (req,res) => {
     };
 
 module.exports = {
-    signIn,
-    signUp
+    signIn
 }

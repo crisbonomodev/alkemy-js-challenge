@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 
 const User = db.define('User', {
-  username: {
+  email: {
     type: DataTypes.STRING,
     allowNull: false
   },

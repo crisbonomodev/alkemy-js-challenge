@@ -4,10 +4,8 @@ const User = require('../models/User');
 //Caso contrario, graba el usuario en bd.
 const createUser = async (req,res) => {
     try {
-        let {username,firstName,lastName,password} = req.body;
-
-    
-        let userFound = await User.findOne({where: {username: `${username}`}});
+        let {email,password,firstName,lastName} = req.body;
+        let userFound = await User.findOne({where: {email: `${email}`}});
         if(userFound!== null){ //Si encuentra al usuario registrado
             res.status(400).json({
                 ok:false,
@@ -15,7 +13,7 @@ const createUser = async (req,res) => {
             });
         }else{//Guardamos en la bd
             const newUser = await User.create({
-                username: username,
+                email: email,
                 password: await User.encryptPassword(password),
                 firstName: firstName,
                 lastName: lastName
@@ -23,7 +21,6 @@ const createUser = async (req,res) => {
 
             res.status(200).json(newUser);
         }
-       res.status(200).json('createUser');
     } catch (error) {
         res.status(400).json({ok: false,
         error: error.message});
@@ -34,12 +31,12 @@ const createUser = async (req,res) => {
 const getUser = async (req,res) => {
     try {
         //parametros
-        let username = req.body.username;
-        console.log(username);
+        let email = req.body.email;
+        console.log(email);
         let userFound;
         //Usamos el modelo para buscar, el string esta seteado para devolver solo nombre y email
-        if(username){
-            userFound = await User.findOne({where: {username: `${username}`}});
+        if(email){
+            userFound = await User.findOne({where: {email: `${email}`}});
         }else{
             userFound = {};
         }

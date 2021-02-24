@@ -8,7 +8,7 @@ app.use(express.json());
 app.get('/user', UserController.getUser);
 app.get('/user/:username', UserController.getUser);
 //POST
-app.post('/user', UserController.createUser);
+app.post('/signup', UserController.createUser);
 //PUT
 app.put('/user/:id',UserController.updateUserById);
 //DELETE
