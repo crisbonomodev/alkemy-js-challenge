@@ -9,8 +9,8 @@ app.get('/transaction/', TransactionController.getTransaction);
 //POST
 app.post('/transaction/', TransactionController.createTransaction);
 //PUT
-//app.put('/transaction/:id',TransactionController);
+app.put('/transaction/',TransactionController.updateTransaction);
 //DELETE
-//app.delete('/transaction/:id', TransactionController);
+app.delete('/transaction/', TransactionController.deleteTransaction);
    
 module.exports = app;

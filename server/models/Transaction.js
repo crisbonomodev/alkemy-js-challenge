@@ -4,7 +4,7 @@ const db = require('../db/db.js');
 const Transaction = db.define('Transaction', {
   type: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   category: {
     type: DataTypes.STRING,
@@ -23,11 +23,11 @@ const Transaction = db.define('Transaction', {
     allowNull: false
   },
   createdAt: {
-    type: DataTypes.DATE,
+    type: DataTypes.STRING,
     allowNull: false
   },
   updatedAt: {
-    type: DataTypes.DATE,
+    type: DataTypes.STRING,
     allowNull: false
   }
 }, {

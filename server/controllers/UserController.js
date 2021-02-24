@@ -6,6 +6,7 @@ const createUser = async (req,res) => {
     try {
         let {username,firstName,lastName,password} = req.body;
 
+    
         let userFound = await User.findOne({where: {username: `${username}`}});
         if(userFound!== null){ //Si encuentra al usuario registrado
             res.status(400).json({
