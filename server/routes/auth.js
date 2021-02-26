@@ -1,7 +1,13 @@
 const {Router} = require('express');
-const router = Router();
-const authController = require('../controllers/authController');
+const express = require('express');
+const app = express();
+const {signIn,renewToken} = require('../controllers/authController');
+const { createUser } = require('../controllers/UserController');
+const { verifyToken } = require('../middlewares/verify-token');
 
-router.post('/signin',authController.signIn);
 
-module.exports = router;
+app.post('/auth/signin',signIn);
+app.post('/auth/signup', createUser);
+app.get('/auth/renew',verifyToken,renewToken);
+
+module.exports = app;

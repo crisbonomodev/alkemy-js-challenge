@@ -2,6 +2,7 @@ require('./config/config');
 
 const express = require('express')
 const app = express();
+const cors = require('cors');
 
 const db = require('./db/db');
 
@@ -10,18 +11,14 @@ db.authenticate()
 .catch((err)=> {
   console.log(err)
 })
-
+app.use(cors());
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-//GET
-app.get('/', function (req, res) {
-  res.json('Balance Homepage');
-})
 
 //Routes
 app.use(require('./routes/index'));
 
 app.listen(process.env.PORT,()=> {
-console.log('Escuchando en puerto 3000');
+console.log('Escuchando en puerto ' + process.env.PORT);
 
 })

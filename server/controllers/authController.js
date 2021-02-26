@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const jwt = require('jsonwebtoken');
+const {generateJWT} = require('../helpers/jwt');
 
 const signIn = async (req,res) => {
     let body = req.body;
@@ -10,28 +10,45 @@ const signIn = async (req,res) => {
     if(!userFound){
         return res.status(400).json({
             ok: false,
-            mensaje: {
-                message: 'Usuario o contraseña incorrectos'
-            }
+            message: 'Usuario o contraseña incorrectos'
         });
     }
     if(!User.comparePassword(userFound.password, body.password)){
         return res.status(400).json({
             ok: false,
-            mensaje: {
-                message: 'usuario o Contraseña incorrectos'
-            }
+            message: 'usuario o Contraseña incorrectos'
+            
         });
     }
 
-        let token = jwt.sign({user: userFound},process.env.SEED,{expiresIn: process.env.CADUCIDAD_TOKEN});
+  
+        let token = await generateJWT(userFound.id,userFound.firstName);
+
         res.json({ //Login exitoso
             ok: true,
-            user: userFound,
+            id: userFound.id,
+            name: userFound.firstName,
             token
         });
     };
 
+
+const renewToken = async (req,res = response) => {
+
+    const id = req.uid;
+    const name = req.name;
+    
+    let token = await generateJWT(id,name);
+
+    res.json({
+        ok:true,
+        id,
+        name,
+        token
+    })
+}
+
 module.exports = {
-    signIn
+    signIn,
+    renewToken 
 }
