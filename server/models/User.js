@@ -29,8 +29,8 @@ User.encryptPassword = async function (password) {
   return await bcrypt.hash(password,salt);
 }
 
-User.comparePassword =  async function (password,receivedPassword) {
-  return await bcrypt.compare(password,receivedPassword);
+User.comparePassword =  async function (receivedPassword,encryptedPassword) {
+  return bcrypt.compareSync(receivedPassword,encryptedPassword);
 }
 
 module.exports = User;

@@ -29,6 +29,10 @@ const Transaction = db.define('Transaction', {
   updatedAt: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  date: {
+    type: DataTypes.DATEONLY,
+    allowNull: false
   }
 }, {
   timestamps: false,

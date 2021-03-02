@@ -8,33 +8,12 @@ const { ISO_8601 } = require('moment');
 
 const getTransaction = async (req,res) => {
     try {
-        //parametros
-        let username = req.body.username;
-        console.log(username);
-        let userFound;
-         if(username){
-            userFound = await User.findOne({where: {username: `${username}`}});
-        }else{
-            userFound = null;
-            
-        }
 
-        if(userFound)
-        {
-            const {id} = userFound.dataValues; 
+            const id = req.params.id; 
 
-            let transactions = await Transaction.findAll({
-                where: {
-                    userId: `${id}`}
-                });
+            let transactions = await Transaction.findAll();
     
             res.status(200).json(transactions); 
-        }
-        else
-        {
-            res.status(400).json({ok: false,
-            error: 'user not found'}); 
-        }
 
     } catch (error) {
         console.log(error);
@@ -43,9 +22,9 @@ const getTransaction = async (req,res) => {
 
 const createTransaction = async (req,res) => {
     
-
+try {
     let now = moment().format('YYYY-MM-DD HH:mm:ss');
-    let {type,category,concept,amount,userId} = req.body;
+    let {type,category,concept,amount,userId,date} = req.body;
     let createdAt = now;
     let updatedAt = now;
     const newTransaction = await Transaction.create({
@@ -53,23 +32,32 @@ const createTransaction = async (req,res) => {
         category,
         concept,
         amount,
+        date,
         userId,
         createdAt,
         updatedAt
     })
 
     res.status(200).json({
+        ok: true,
         newTransaction
     })
+} catch (error) {
+    res.status(400).json({
+        ok: false,
+        error
+    })
+}
+    
 }
 
 const updateTransaction = async(req,res) => {
     
     let now = moment().format('YYYY-MM-DD HH:mm:ss');
 
-    const {transactionId,category,concept,amount} = req.body;
+    const {id,category,concept,amount} = req.body;
 
-    const transactionFound = await Transaction.findOne({where: {id:`${transactionId}`}});
+    const transactionFound = await Transaction.findOne({where: {id:`${id}`}});
 
     if(transactionFound)
     {
@@ -78,7 +66,7 @@ const updateTransaction = async(req,res) => {
             amount: `${amount}`,
             concept: `${concept}`,
             updatedAt: now
-        }, {where:{id:`${transactionId}`}});
+        }, {where:{id:`${id}`}});
 
         res.status(200).json({ok: true});
     }
@@ -91,13 +79,13 @@ const updateTransaction = async(req,res) => {
 
 const deleteTransaction = async(req,res) => {
 
-    const {transactionId} = req.body;
-
-    const transactionFound = await Transaction.findOne({where: {id:`${transactionId}`}});
+    console.log(req.body.id);
+    const id = req.body.id;
+    const transactionFound = await Transaction.findOne({where: {id:`${id}`}});
 
     if(transactionFound)
     {
-        await Transaction.destroy({where: {id:`${transactionId}`}});
+        await Transaction.destroy({where: {id:`${id}`}});
         res.status(200).json({ok:true});
     }
     else

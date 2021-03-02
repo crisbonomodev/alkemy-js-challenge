@@ -1,5 +1,7 @@
 const User = require('../models/User');
 const {generateJWT} = require('../helpers/jwt');
+const { createBalance } = require('./BalanceController');
+
 
 //Metodo de creacion de usuarios, valida que el username no exista, en ese caso retorna error.
 //Caso contrario, graba el usuario en bd.
@@ -20,12 +22,17 @@ const createUser = async (req,res) => {
                 lastName: lastName
             });
 
+            console.log(newUser.id);
+            const balance = await createBalance(newUser.id);
+            //console.log(balance);
+
             let token = await generateJWT(newUser.id, newUser.firstName);
 
             res.status(200).json({ok: true,
                 id: newUser.id,
                 name: newUser.firstName,
-                token});
+                token,
+                balance});
         }
     } catch (error) {
         res.status(400).json({ok: false,
