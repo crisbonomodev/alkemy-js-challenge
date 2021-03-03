@@ -11,7 +11,10 @@ const getTransaction = async (req,res) => {
 
             const id = req.params.id; 
 
-            let transactions = await Transaction.findAll();
+            let transactions = await Transaction.findAll({ 
+                limit: 10,
+                order: [['createdAt', 'DESC']],
+            });
     
             res.status(200).json(transactions); 
 
