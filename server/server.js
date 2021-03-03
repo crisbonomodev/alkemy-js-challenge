@@ -16,6 +16,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 //Routes
+app.use('/', express.static(__dirname + '/public'));
 app.use(require('./routes/index'));
 
 app.listen(process.env.PORT,()=> {
