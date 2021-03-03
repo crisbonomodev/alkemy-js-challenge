@@ -22,9 +22,8 @@ const createUser = async (req,res) => {
                 lastName: lastName
             });
 
-            console.log(newUser.id);
+
             const balance = await createBalance(newUser.id);
-            //console.log(balance);
 
             let token = await generateJWT(newUser.id, newUser.firstName);
 

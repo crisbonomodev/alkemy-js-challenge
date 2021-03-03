@@ -56,7 +56,6 @@ const updateTransaction = async(req,res) => {
     let now = moment().format('YYYY-MM-DD HH:mm:ss');
 
     const {id,category,concept,amount} = req.body;
-
     const transactionFound = await Transaction.findOne({where: {id:`${id}`}});
 
     if(transactionFound)
